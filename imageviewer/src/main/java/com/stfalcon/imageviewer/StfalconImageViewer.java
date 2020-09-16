@@ -24,6 +24,7 @@ import androidx.annotation.*;
 import androidx.core.content.ContextCompat;
 import com.stfalcon.imageviewer.listeners.OnDismissListener;
 import com.stfalcon.imageviewer.listeners.OnImageChangeListener;
+import com.stfalcon.imageviewer.listeners.OnOverlayListener;
 import com.stfalcon.imageviewer.loader.ImageLoader;
 import com.stfalcon.imageviewer.viewer.builder.BuilderData;
 import com.stfalcon.imageviewer.viewer.dialog.ImageViewerDialog;
@@ -255,6 +256,36 @@ public class StfalconImageViewer<T> {
          */
         public Builder<T> allowZooming(boolean value) {
             this.data.setZoomingAllowed(value);
+            return this;
+        }
+
+        /**
+         * Set a custom theme to the dialog. 0 by default.
+         *
+         * @return This Builder object to allow calls chaining
+         */
+        public Builder<T> theme(@StyleRes int theme) {
+            this.data.setTheme(theme);
+            return this;
+        }
+
+        /**
+         * Enables or disables overlay view show and hide animations. True by default.
+         *
+         * @return This Builder object to allow calls chaining
+         */
+        public Builder<T> shouldAnimateOverlayView(boolean animateOverlayView) {
+            this.data.setAnimateOverlayView(animateOverlayView);
+            return this;
+        }
+
+        /**
+         * Sets {@link OnImageChangeListener} for the viewer.
+         *
+         * @return This Builder object to allow calls chaining
+         */
+        public Builder<T> withOverlayListener(OnOverlayListener overlayListener) {
+            this.data.setOnOverlayListener(overlayListener);
             return this;
         }
 
