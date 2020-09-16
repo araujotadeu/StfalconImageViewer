@@ -24,7 +24,7 @@ import androidx.annotation.*;
 import androidx.core.content.ContextCompat;
 import com.stfalcon.imageviewer.listeners.OnDismissListener;
 import com.stfalcon.imageviewer.listeners.OnImageChangeListener;
-import com.stfalcon.imageviewer.listeners.OnOverlayListener;
+import com.stfalcon.imageviewer.listeners.ImageViewerListener;
 import com.stfalcon.imageviewer.loader.ImageLoader;
 import com.stfalcon.imageviewer.viewer.builder.BuilderData;
 import com.stfalcon.imageviewer.viewer.dialog.ImageViewerDialog;
@@ -284,8 +284,8 @@ public class StfalconImageViewer<T> {
          *
          * @return This Builder object to allow calls chaining
          */
-        public Builder<T> withOverlayListener(OnOverlayListener overlayListener) {
-            this.data.setOnOverlayListener(overlayListener);
+        public Builder<T> withImageViewerListener(ImageViewerListener imageViewerListener) {
+            this.data.setImageViewerListener(imageViewerListener);
             return this;
         }
 

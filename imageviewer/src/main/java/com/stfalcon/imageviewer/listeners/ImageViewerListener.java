@@ -21,6 +21,7 @@ package com.stfalcon.imageviewer.listeners;
  * {@link com.stfalcon.imageviewer.StfalconImageViewer} overlay view shows or hide.
  * */
 //N.B.! This class is written in Java for convenient use of lambdas due to languages compatibility issues.
-public interface OnOverlayListener {
-    void onTap();
+public interface ImageViewerListener {
+    void onOverlayTap();
+    void onOpen();
 }

@@ -112,7 +112,7 @@ internal class ImageViewerDialog<T>(
             isSwipeToDismissAllowed = builderData.isSwipeToDismissAllowed
 
             animateOverlayView = builderData.animateOverlayView
-            overlayListener = builderData.onOverlayListener
+            imageViewerListener = builderData.imageViewerListener
 
             containerPadding = builderData.containerPaddingPixels
             imagesMargin = builderData.imageMarginPixels

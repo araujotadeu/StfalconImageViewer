@@ -34,7 +34,7 @@ import com.stfalcon.imageviewer.common.gestures.direction.SwipeDirection.*
 import com.stfalcon.imageviewer.common.gestures.direction.SwipeDirectionDetector
 import com.stfalcon.imageviewer.common.gestures.dismiss.SwipeToDismissHandler
 import com.stfalcon.imageviewer.common.pager.MultiTouchViewPager
-import com.stfalcon.imageviewer.listeners.OnOverlayListener
+import com.stfalcon.imageviewer.listeners.ImageViewerListener
 import com.stfalcon.imageviewer.loader.ImageLoader
 import com.stfalcon.imageviewer.viewer.adapter.ImagesPagerAdapter
 
@@ -46,7 +46,7 @@ internal class ImageViewerView<T> @JvmOverloads constructor(
 
     internal var animateOverlayView = true
 
-    internal var overlayListener: OnOverlayListener? = null
+    internal var imageViewerListener: ImageViewerListener? = null
 
     internal var isZoomingAllowed = true
     internal var isSwipeToDismissAllowed = true
@@ -253,6 +253,7 @@ internal class ImageViewerView<T> @JvmOverloads constructor(
         backgroundView.alpha = 1f
         transitionImageContainer.makeGone()
         imagesPager.makeVisible()
+        imageViewerListener?.onOpen()
     }
 
     private fun handleTouchIfNotScaled(event: MotionEvent): Boolean {
@@ -306,7 +307,7 @@ internal class ImageViewerView<T> @JvmOverloads constructor(
                 overlayView?.switchVisibilityWithAnimation()
                 super.dispatchTouchEvent(event)
             }
-            overlayListener?.onTap()
+            imageViewerListener?.onOverlayTap()
         }
     }
 
