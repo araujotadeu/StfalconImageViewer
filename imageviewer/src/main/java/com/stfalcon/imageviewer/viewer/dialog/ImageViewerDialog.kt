@@ -42,7 +42,7 @@ internal class ImageViewerDialog<T>(
         }
 
     private val dialogSystemUiVisibility: Int
-        get() = if (builderData.shouldStatusBarHide || builderData.theme == 0)
+        get() = if (builderData.shouldStatusBarHide || builderData.theme != 0)
             0
         else
             View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION

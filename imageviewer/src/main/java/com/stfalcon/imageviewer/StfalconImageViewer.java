@@ -264,7 +264,7 @@ public class StfalconImageViewer<T> {
          *
          * @return This Builder object to allow calls chaining
          */
-        public Builder<T> theme(@StyleRes int theme) {
+        public Builder<T> withTheme(@StyleRes int theme) {
             this.data.setTheme(theme);
             return this;
         }
