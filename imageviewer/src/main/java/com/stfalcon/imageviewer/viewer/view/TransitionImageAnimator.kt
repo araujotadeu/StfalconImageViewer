@@ -89,7 +89,6 @@ internal class TransitionImageAnimator(
 
             internalImageContainer.makeViewMatchParent()
             internalImage.makeViewMatchParent()
-            internalImage.scaleType = ImageView.ScaleType.FIT_CENTER
 
             internalRoot.applyMargin(
                     containerPadding[0],
@@ -125,8 +124,6 @@ internal class TransitionImageAnimator(
                 }
             }
 
-            internalImage.scaleType = it.scaleType
-
             resetRootTranslation()
         }
     }
@@ -145,18 +142,9 @@ internal class TransitionImageAnimator(
                 .start()
     }
 
-    private fun createTransition(onTransitionEnd: (() -> Unit)? = null): Transition {
-        val transition =
-                TransitionSet()
-                        .setOrdering(TransitionSet.ORDERING_TOGETHER)
-                        .addTransition(ChangeBounds())
-                        .addTransition(ChangeTransform())
-                        .addTransition(ChangeClipBounds())
-                        .addTransition(ChangeImageTransform())
-
-        return transition
-                .setDuration(transitionDuration)
-                .setInterpolator(DecelerateInterpolator())
-                .addListener(onTransitionEnd = { onTransitionEnd?.invoke() })
-    }
+    private fun createTransition(onTransitionEnd: (() -> Unit)? = null): Transition =
+            AutoTransition()
+                    .setDuration(transitionDuration)
+                    .setInterpolator(DecelerateInterpolator())
+                    .addListener(onTransitionEnd = { onTransitionEnd?.invoke() })
 }
