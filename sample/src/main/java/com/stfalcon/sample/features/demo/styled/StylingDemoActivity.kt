@@ -88,8 +88,6 @@ class StylingDemoActivity : BaseActivity() {
             builder.withBackgroundColor(getRandomColor())
         }
 
-        builder.theme(android.R.style.Theme_Holo_NoActionBar)
-
         viewer = builder.show()
     }
 
