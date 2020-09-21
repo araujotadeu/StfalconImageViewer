@@ -18,6 +18,7 @@ package com.stfalcon.imageviewer.viewer.dialog
 
 import android.content.Context
 import android.view.KeyEvent
+import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import com.stfalcon.imageviewer.R
@@ -25,8 +26,8 @@ import com.stfalcon.imageviewer.viewer.builder.BuilderData
 import com.stfalcon.imageviewer.viewer.view.ImageViewerView
 
 internal class ImageViewerDialog<T>(
-    context: Context,
-    private val builderData: BuilderData<T>
+        context: Context,
+        private val builderData: BuilderData<T>
 ) {
 
     private val dialog: AlertDialog
@@ -34,22 +35,31 @@ internal class ImageViewerDialog<T>(
     private var animateOpen = true
 
     private val dialogStyle: Int
-        get() = if (builderData.shouldStatusBarHide)
-            R.style.ImageViewerDialog_NoStatusBar
+        get() = when {
+            builderData.theme != 0 -> builderData.theme
+            builderData.shouldStatusBarHide -> R.style.ImageViewerDialog_NoStatusBar
+            else -> R.style.ImageViewerDialog_Default
+        }
+
+    private val dialogSystemUiVisibility: Int
+        get() = if (builderData.shouldStatusBarHide || builderData.theme != 0)
+            0
         else
-            R.style.ImageViewerDialog_Default
+            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
 
     init {
         setupViewerView()
         dialog = AlertDialog
-            .Builder(context, dialogStyle)
-            .setView(viewerView)
-            .setOnKeyListener { _, keyCode, event -> onDialogKeyEvent(keyCode, event) }
-            .create()
-            .apply {
-                setOnShowListener { viewerView.open(builderData.transitionView, animateOpen) }
-                setOnDismissListener { builderData.onDismissListener?.onDismiss() }
-            }
+                .Builder(context, dialogStyle)
+                .setView(viewerView)
+                .setOnKeyListener { _, keyCode, event -> onDialogKeyEvent(keyCode, event) }
+                .create()
+                .apply {
+                    setOnShowListener { viewerView.open(builderData.transitionView, animateOpen) }
+                    setOnDismissListener { builderData.onDismissListener?.onDismiss() }
+                }
+
+        dialog.window?.decorView?.systemUiVisibility = dialogSystemUiVisibility
     }
 
     fun show(animate: Boolean) {
@@ -70,7 +80,7 @@ internal class ImageViewerDialog<T>(
     }
 
     fun getCurrentPosition(): Int =
-        viewerView.currentPosition
+            viewerView.currentPosition
 
     fun setCurrentPosition(position: Int): Int {
         viewerView.currentPosition = position
@@ -83,8 +93,8 @@ internal class ImageViewerDialog<T>(
 
     private fun onDialogKeyEvent(keyCode: Int, event: KeyEvent): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK &&
-            event.action == KeyEvent.ACTION_UP &&
-            !event.isCanceled
+                event.action == KeyEvent.ACTION_UP &&
+                !event.isCanceled
         ) {
             if (viewerView.isScaled) {
                 viewerView.resetScale()
@@ -100,6 +110,9 @@ internal class ImageViewerDialog<T>(
         viewerView.apply {
             isZoomingAllowed = builderData.isZoomingAllowed
             isSwipeToDismissAllowed = builderData.isSwipeToDismissAllowed
+
+            animateOverlayView = builderData.animateOverlayView
+            imageViewerListener = builderData.imageViewerListener
 
             containerPadding = builderData.containerPaddingPixels
             imagesMargin = builderData.imageMarginPixels
